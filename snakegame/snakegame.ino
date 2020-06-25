@@ -8,7 +8,7 @@
 #define PIN 6
 
 #define mw 34
-#define mh 20
+#define mh 18
 
 // MATRIX DECLARATION:
 // Parameter 1 = width of NeoPixel matrix
@@ -37,8 +37,8 @@
 // lines are arranged in columns, progressive order.  The shield uses
 // 800 KHz (v2) pixels that expect GRB color data.
 Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(mh, mw, PIN,
-                            NEO_MATRIX_BOTTOM     + NEO_MATRIX_RIGHT +
-                            NEO_MATRIX_COLUMNS + NEO_MATRIX_PROGRESSIVE,
+                            NEO_MATRIX_TOP     + NEO_MATRIX_RIGHT +
+                            NEO_MATRIX_COLUMNS + NEO_MATRIX_ZIGZAG,
                             NEO_GRB            + NEO_KHZ800);
 
 
@@ -48,7 +48,7 @@ void setup() {
   matrix.setBrightness(30);
 }
 void intrit() {
-  int doubleArray [20][34] {
+  int doubleArray [19][34] {
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -67,11 +67,10 @@ void intrit() {
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
   };
   for (int i = 0; i > 34; i++){
-    for (int j = 0; j > 20; i++){
+    for (int j = 0; j > 19; i++){
       if (doubleArray[j][i] == 1){
         matrix.drawPixel(j, i, matrix.Color(255, 255, 255));
         matrix.show();
@@ -84,6 +83,6 @@ void intrit() {
 
 void loop()
 {
-  intrit();
-  matrix.fill(matrix.Color(255,0,0));
+  matrix.drawRect(1,0, 18, 34, matrix.Color(255, 0, 0));
+  matrix.show();
 }
