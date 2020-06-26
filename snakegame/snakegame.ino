@@ -8,7 +8,7 @@
 #define PIN 6
 
 #define mw 34
-#define mh 18
+#define mh 17
 
 // MATRIX DECLARATION:
 // Parameter 1 = width of NeoPixel matrix
@@ -37,18 +37,23 @@
 // lines are arranged in columns, progressive order.  The shield uses
 // 800 KHz (v2) pixels that expect GRB color data.
 Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(mh, mw, PIN,
-                            NEO_MATRIX_TOP     + NEO_MATRIX_RIGHT +
+                            NEO_MATRIX_BOTTOM     + NEO_MATRIX_RIGHT +
                             NEO_MATRIX_COLUMNS + NEO_MATRIX_ZIGZAG,
                             NEO_GRB            + NEO_KHZ800);
+//Snake game Pseudocode
+//1. Have a Rectangle that if the snake hits, he dies and game stops. BONUS: If snake goes over itself, the game stops,
+//2. Make it so that a food particle goes in random places. BONUS: When Snake touches it, food goes to random place and snake gets longer by 1 length. 
+//Cant make new fruit where snake is. 
 
 
 void setup() {
   matrix.begin();
   matrix.setTextWrap(false);
   matrix.setBrightness(30);
+  makeFruit();
 }
 void intrit() {
-  int doubleArray [19][34] {
+  int doubleArray [17][34] {
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -65,24 +70,28 @@ void intrit() {
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},    
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
     {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
   };
-  for (int i = 0; i > 34; i++){
-    for (int j = 0; j > 19; i++){
+  for (int j = 0; j > 17; j++){
+    for (int i = 0; i > 34; i++){
       if (doubleArray[j][i] == 1){
-        matrix.drawPixel(j, i, matrix.Color(255, 255, 255));
+        matrix.drawPixel(j, i, matrix.Color(255, 0, 255));
         matrix.show();
       }
     }
   }
 }
 
-
+void makeFruit(){
+  int x = random(1, 16), y =random(0, 34);
+  matrix.drawPixel(x, y, matrix.Color(255,0,99));
+  matrix.show();
+}
 
 void loop()
 {
-  matrix.drawRect(1,0, 18, 34, matrix.Color(255, 0, 0));
+  
+  matrix.drawRect(0,0, 17, 34, matrix.Color(255, 255, 255));
   matrix.show();
+  intrit();
 }
