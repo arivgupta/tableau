@@ -42,56 +42,57 @@ Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(mh, mw, PIN,
                             NEO_GRB            + NEO_KHZ800);
 //Snake game Pseudocode
 //1. Have a Rectangle that if the snake hits, he dies and game stops. BONUS: If snake goes over itself, the game stops,
-//2. Make it so that a food particle goes in random places. BONUS: When Snake touches it, food goes to random place and snake gets longer by 1 length. 
-//Cant make new fruit where snake is. 
+//2. Make it so that a food particle goes in random places. BONUS: When Snake touches it, food goes to random place and snake gets longer by 1 length.
+//Cant make new fruit where snake is.
 
+
+const int buttonPin = 2;
+
+// Variables will change:
+int RbuttonPushCounter = 0;   // counter for the number of button presses
+int RbuttonState = 0;         // current state of the button
+int RlastButtonState = 0;     // previous state of the button
+
+int snakeX = 7;
+int snakeY = 7;
 
 void setup() {
+  pinMode(buttonPin, INPUT);
   matrix.begin();
   matrix.setTextWrap(false);
+  Serial.begin(9600);
   matrix.setBrightness(30);
   makeFruit();
-}
-void intrit() {
-  int doubleArray [17][34] {
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},    
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},    
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},    
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-  };
-  for (int j = 0; j > 17; j++){
-    for (int i = 0; i > 34; i++){
-      if (doubleArray[j][i] == 1){
-        matrix.drawPixel(j, i, matrix.Color(255, 0, 255));
-        matrix.show();
-      }
-    }
-  }
-}
-
-void makeFruit(){
-  int x = random(1, 16), y =random(0, 34);
-  matrix.drawPixel(x, y, matrix.Color(255,0,99));
-  matrix.show();
+  makeSnake();
 }
 
 void loop()
 {
-  
-  matrix.drawRect(0,0, 17, 34, matrix.Color(255, 255, 255));
+  Buttons();
+  RbuttonState = digitalRead(buttonPin);
+  matrix.drawRect(0, 0, 17, 34, matrix.Color(255, 255, 255));
   matrix.show();
-  intrit();
+  Serial.println(RbuttonState);
+}
+
+void makeFruit() {
+  int x = random(1, 16), y = random(0, 34);
+  matrix.drawPixel(x, y, matrix.Color(255, 0, 99));
+  matrix.show();
+}
+
+void makeSnake() {
+  matrix.drawPixel(snakeX, snakeY, matrix.Color(0, 0, 128));
+  matrix.show();
+}
+
+void Buttons() {
+  RbuttonState = digitalRead(buttonPin);
+  if (RbuttonState != RlastButtonState) {
+    // if the state has changed, increment the counter
+    if (RbuttonState == HIGH) {
+      snakeY--;
+      makeSnake();
+    }
+  }
 }
