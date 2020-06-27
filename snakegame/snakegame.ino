@@ -91,7 +91,8 @@ void Buttons() {
   if (RbuttonState != RlastButtonState) {
     // if the state has changed, increment the counter
     if (RbuttonState == HIGH) {
-      snakeY--;
+      matrix.drawPixel(snakeX, snakeY, matrix.Color(0, 0, 0));
+      snakeX--;
       makeSnake();
     }
   }
