@@ -45,11 +45,13 @@ Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(mh, mw, PIN,
 //2. Make it so that a food particle goes in random places. BONUS: When Snake touches it, food goes to random place and snake gets longer by 1 length.
 //Cant make new fruit where snake is.
 
+int x = random(1, 15);
+int y = random(1, 33);
 
 const int RbuttonPin = 12;
 const int LbuttonPin = 4;
-const int UbuttonPin = 8;
-const int DbuttonPin = 7;
+const int UbuttonPin = 7;
+const int DbuttonPin = 8;
 
 // Variables will change:
 int RbuttonState = 0;         // current state of the button
@@ -74,7 +76,7 @@ void setup() {
   matrix.setTextWrap(false);
   Serial.begin(9600);
   matrix.setBrightness(30);
-  makeFruit();
+  initializeFruit();
   makeSnake();
   matrix.drawRect(0, 0, 17, 34, matrix.Color(255, 0, 0));
 }
@@ -82,13 +84,39 @@ void setup() {
 void loop()
 {
   Buttons();
+  checkFruit();
   matrix.show();
 }
 
-void makeFruit() {
-  int x = random(1, 16), y = random(0, 34);
+void initializeFruit() {
   matrix.drawPixel(x, y, matrix.Color(255, 0, 99));
   matrix.show();
+}
+
+void plusOne() {
+  if (counter == (3 || 4)) {
+    matrix.drawPixel(snakeX, snakeY++, matrix.Color(0, 0, 128));
+    matrix.show();
+  }
+  if (counter == (1 || 2)) {
+    matrix.drawPixel(snakeX++, snakeY, matrix.Color(0, 0, 128));
+    matrix.show();
+  }
+
+}
+
+void checkFruit() {
+  if (snakeX == x && snakeY == y) {
+    delay(1000);
+    plusOne();
+    int x = random(1, 15);
+    int y = random(1, 33);
+    matrix.drawPixel(x, y, matrix.Color(255, 0, 99));
+    matrix.show();
+  }
+  else {
+    Buttons();
+  }
 }
 
 void makeSnake() {
@@ -110,7 +138,7 @@ void Buttons() {
       matrix.drawPixel(snakeX, snakeY, matrix.Color(0, 0, 0));
       snakeX--;
       makeSnake();
-      Buttons();
+      checkFruit();
     }
   }
 
@@ -121,7 +149,7 @@ void Buttons() {
       matrix.drawPixel(snakeX, snakeY, matrix.Color(0, 0, 0));
       snakeX++;
       makeSnake();
-      Buttons();
+      checkFruit();
     }
   }
 
@@ -132,7 +160,7 @@ void Buttons() {
       matrix.drawPixel(snakeX, snakeY, matrix.Color(0, 0, 0));
       snakeY++;
       makeSnake();
-      Buttons();
+      checkFruit();
     }
   }
 
@@ -143,7 +171,7 @@ void Buttons() {
       matrix.drawPixel(snakeX, snakeY, matrix.Color(0, 0, 0));
       snakeY--;
       makeSnake();
-      Buttons();
+      checkFruit();
     }
   }
 }
