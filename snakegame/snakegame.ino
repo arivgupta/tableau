@@ -45,9 +45,8 @@ Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(mh, mw, PIN,
 //2. Make it so that a food particle goes in random places. BONUS: When Snake touches it, food goes to random place and snake gets longer by 1 length.
 //Cant make new fruit where snake is.
 
-int counter = 0;
 
-const int RbuttonPin = 2;
+const int RbuttonPin = 12;
 const int LbuttonPin = 4;
 const int UbuttonPin = 8;
 const int DbuttonPin = 7;
@@ -61,8 +60,10 @@ int UbuttonState = 0;         // current state of the button
 
 int DbuttonState = 0;         // current state of the button
 
-int snakeX = 7;
+int snakeX = 4;
 int snakeY = 7;
+
+int counter = 0;
 
 void setup() {
   pinMode(RbuttonPin, INPUT);
@@ -75,18 +76,13 @@ void setup() {
   matrix.setBrightness(30);
   makeFruit();
   makeSnake();
+  matrix.drawRect(0, 0, 17, 34, matrix.Color(255, 0, 0));
 }
 
 void loop()
 {
   Buttons();
-  RbuttonState = digitalRead(RbuttonPin);
-  LbuttonState = digitalRead(LbuttonPin);
-  UbuttonState = digitalRead(UbuttonPin);
-  DbuttonState = digitalRead(DbuttonPin);
-  matrix.drawRect(0, 0, 17, 34, matrix.Color(255, 0, 0));
   matrix.show();
-  Serial.println(RbuttonState);
 }
 
 void makeFruit() {
@@ -98,7 +94,7 @@ void makeFruit() {
 void makeSnake() {
   matrix.drawPixel(snakeX, snakeY, matrix.Color(0, 0, 128));
   matrix.show();
-  delay(100);
+  delay(500);
 }
 
 void Buttons() {
@@ -109,38 +105,45 @@ void Buttons() {
 
   if (RbuttonState == HIGH) {
     counter = 1;
+    Serial.println(counter);
+    while (counter = 1) {
+      matrix.drawPixel(snakeX, snakeY, matrix.Color(0, 0, 0));
+      snakeX--;
+      makeSnake();
+      Buttons();
+    }
   }
 
   if (LbuttonState == HIGH) {
     counter = 2;
+    Serial.println(counter);
+    while (counter = 2) {
+      matrix.drawPixel(snakeX, snakeY, matrix.Color(0, 0, 0));
+      snakeX++;
+      makeSnake();
+      Buttons();
+    }
   }
 
   if (UbuttonState == HIGH) {
     counter = 3;
+    Serial.println(counter);
+    while (counter = 3) {
+      matrix.drawPixel(snakeX, snakeY, matrix.Color(0, 0, 0));
+      snakeY++;
+      makeSnake();
+      Buttons();
+    }
   }
 
   if (DbuttonState == HIGH) {
     counter = 4;
-  }
-
-  while (counter = 1) {
-    matrix.drawPixel(snakeX, snakeY, matrix.Color(0, 0, 0));
-    snakeX--;
-    makeSnake();
-  }
-  while (counter = 2) {
-    matrix.drawPixel(snakeX, snakeY, matrix.Color(0, 0, 0));
-    snakeX++;
-    makeSnake();
-  }
-  while (counter = 3) {
-    matrix.drawPixel(snakeX, snakeY, matrix.Color(0, 0, 0));
-    snakeY++;
-    makeSnake();
-  }
-  while (counter = 4) {
-    matrix.drawPixel(snakeX, snakeY, matrix.Color(0, 0, 0));
-    snakeY--;
-    makeSnake();
+    Serial.println(counter);
+    while (counter = 4) {
+      matrix.drawPixel(snakeX, snakeY, matrix.Color(0, 0, 0));
+      snakeY--;
+      makeSnake();
+      Buttons();
+    }
   }
 }
