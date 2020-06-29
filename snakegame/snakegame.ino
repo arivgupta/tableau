@@ -93,6 +93,15 @@ void initializeFruit() {
   matrix.show();
 }
 
+void resetFruit() {
+  x = 0;
+  y = 0;
+  x = random(1, 15);
+  y = random(1, 33);
+  matrix.drawPixel(x, y, matrix.Color(255, 0, 99));
+  matrix.show();
+}
+
 void plusOne() {
   if (counter == (3 || 4)) {
     matrix.drawPixel(snakeX, snakeY++, matrix.Color(0, 0, 128));
@@ -109,9 +118,7 @@ void checkFruit() {
   if (snakeX == x && snakeY == y) {
     delay(1000);
     plusOne();
-    int x = random(1, 15);
-    int y = random(1, 33);
-    matrix.drawPixel(x, y, matrix.Color(255, 0, 99));
+    resetFruit();
     matrix.show();
   }
   else {
