@@ -126,6 +126,19 @@ void checkFruit() {
   }
 }
 
+void GameOver() {
+  if (snakeX == 0 || snakeX == 17) {
+    matrix.clear();
+    matrix.fillRect(0, 0, 17, 34, matrix.Color(246, 70, 91));
+    matrix.show();
+  }
+  else if (snakeY == 0 || snakeY == 34) {
+    matrix.clear();
+    matrix.fillRect(0, 0, 17, 34, matrix.Color(246, 70, 91));
+    matrix.show();
+  }
+}
+
 void makeSnake() {
   matrix.drawPixel(snakeX, snakeY, matrix.Color(0, 0, 128));
   matrix.show();
@@ -146,6 +159,7 @@ void Buttons() {
       snakeX--;
       makeSnake();
       checkFruit();
+      GameOver();
     }
   }
 
@@ -157,6 +171,7 @@ void Buttons() {
       snakeX++;
       makeSnake();
       checkFruit();
+      GameOver();
     }
   }
 
@@ -168,6 +183,7 @@ void Buttons() {
       snakeY++;
       makeSnake();
       checkFruit();
+      GameOver();
     }
   }
 
@@ -179,6 +195,7 @@ void Buttons() {
       snakeY--;
       makeSnake();
       checkFruit();
+      GameOver();
     }
   }
 }
