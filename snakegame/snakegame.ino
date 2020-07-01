@@ -127,12 +127,7 @@ void checkFruit() {
 }
 
 void GameOver() {
-  if (snakeX == 0 || snakeX == 17) {
-    matrix.clear();
-    matrix.fillRect(0, 0, 17, 34, matrix.Color(246, 70, 91));
-    matrix.show();
-  }
-  else if (snakeY == 0 || snakeY == 34) {
+  if (snakeX == 0 || snakeX == 17 || snakeY == 0 || snakeY == 34) {
     matrix.clear();
     matrix.fillRect(0, 0, 17, 34, matrix.Color(246, 70, 91));
     matrix.show();
