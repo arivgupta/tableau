@@ -1,6 +1,7 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_NeoMatrix.h>
 #include <Adafruit_NeoPixel.h>
+
 #ifndef PSTR
 #define PSTR // Make Arduino Due happy
 #endif
@@ -44,6 +45,7 @@ Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(mh, mw, PIN,
 //1. Have a Rectangle that if the snake hits, he dies and game stops. BONUS: If snake goes over itself, the game stops,
 //2. Make it so that a food particle goes in random places. BONUS: When Snake touches it, food goes to random place and snake gets longer by 1 length.
 //Cant make new fruit where snake is.
+
 
 int x = random(1, 15);
 int y = random(1, 33);
