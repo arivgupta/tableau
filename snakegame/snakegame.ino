@@ -46,6 +46,7 @@ Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(mh, mw, PIN,
 //2. Make it so that a food particle goes in random places. BONUS: When Snake touches it, food goes to random place and snake gets longer by 1 length.
 //Cant make new fruit where snake is.
 
+int i = 1;
 
 int x = random(1, 15);
 int y = random(1, 33);
@@ -64,8 +65,31 @@ int UbuttonState = 0;         // current state of the button
 
 int DbuttonState = 0;         // current state of the button
 
+int doubleArray[17][34] = {
+  { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+  { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+  { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+  { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+  { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+  { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+  { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+  { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+  { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+  { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+  { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+  { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+  { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+  { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+  { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+  { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+  { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1};
+}
+
+
 int snakeX = 4;
 int snakeY = 7;
+
+int snakeLength = 1;
 
 int counter = 0;
 
@@ -104,7 +128,7 @@ void resetFruit() {
   matrix.show();
 }
 
-void plusOne() {
+/* void plusOne() {
   if (counter == (3 || 4)) {
     matrix.drawPixel(snakeX, snakeY++, matrix.Color(0, 0, 128));
     matrix.show();
@@ -114,12 +138,14 @@ void plusOne() {
     matrix.show();
   }
 
-}
+  }
+
+*/
 
 void checkFruit() {
   if (snakeX == x && snakeY == y) {
     delay(1000);
-    plusOne();
+    snakeLength++;
     resetFruit();
     matrix.show();
   }
@@ -152,11 +178,13 @@ void Buttons() {
     counter = 1;
     Serial.println(counter);
     while (counter = 1) {
-      matrix.drawPixel(snakeX, snakeY, matrix.Color(0, 0, 0));
-      snakeX--;
-      makeSnake();
-      checkFruit();
-      GameOver();
+      for (i; i <= snakeLength, i++) {
+        matrix.drawPixel(snakeX, snakeY, matrix.Color(0, 0, 0));
+        snakeX--;
+        makeSnake();
+        checkFruit();
+        GameOver();
+      }
     }
   }
 
