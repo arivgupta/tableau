@@ -87,13 +87,18 @@ int doubleArray[17][34] = {
   { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}
 }
 
+
+const int MAX_SNAKE_LENGTH = 25;
+
 //double array is the arduino board
 //if the snake is on a certian coordinate, it is changed from zero to 1,
 //food is equal to 2, if the snake head x is equal to food x and y = y, then replace food with snake and increase snake length
 //
 
-int snakeX = 4;
-int snakeY = 7;
+int snakeY[MAX_SNAKE_LENGTH];
+
+int snakeX[0] = 4;
+int snakeY[0] = 7;
 
 int snakeLength = 1;
 
@@ -111,6 +116,7 @@ void setup() {
   initializeFruit();
   makeSnake();
   matrix.drawRect(0, 0, 17, 34, matrix.Color(255, 0, 0));
+  for (i = 1, i<MAX_SNAKE_LENGTH, i++);
 }
 
 void loop()
