@@ -3,12 +3,13 @@
 #include <Adafruit_NeoPixel.h>
 #include <Vector.h>
 
+//checked commit
 
 #ifndef PSTR
 #define PSTR // Make Arduino Due happy
 #endif
 
-#define PIN 6
+#define PIN 6 
 
 #define mw 34
 #define mh 17
