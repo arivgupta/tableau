@@ -1,7 +1,6 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_NeoMatrix.h>
 #include <Adafruit_NeoPixel.h>
-#include <Vector.h>
 
 //thanks to adityamittal13 for his conceptual help!
 
