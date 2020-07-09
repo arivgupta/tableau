@@ -56,7 +56,6 @@ const int LbuttonPin = 4;
 const int UbuttonPin = 8;
 const int DbuttonPin = 7;
 
-// Variables will change:
 int RbuttonState = 0;         // current state of the button
 
 int LbuttonState = 0;         // current state of the button
@@ -66,11 +65,6 @@ int UbuttonState = 0;         // current state of the button
 int DbuttonState = 0;         // current state of the button
 
 const long MAX_SNAKE_LENGTH = 25;
-
-//double array is the arduino board
-//if the snake is on a certian coordinate, it is changed from zero to 1,
-//food is equal to 2, if the snake head x is equal to food x and y = y, then replace food with snake and increase snake length
-//
 
 int snakeX[MAX_SNAKE_LENGTH];
 int snakeY[MAX_SNAKE_LENGTH];
