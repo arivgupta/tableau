@@ -71,7 +71,7 @@ int UbuttonState = 0;         // current state of the button
 
 int DbuttonState = 0;         // current state of the button
 
-const int MAX_SNAKE_LENGTH = 200;
+const int MAX_SNAKE_LENGTH = 25;
 
 //double array is the arduino board
 //if the snake is on a certian coordinate, it is changed from zero to 1,
@@ -99,10 +99,6 @@ void setup() {
   snakeX[0] = 4;
   snakeY[0] = 7;
   makeSnake();
-  for (i = 1; i <= MAX_SNAKE_LENGTH - 1; i++){
-    snakeX[i] = -10;
-    snakeY[i] = -10;
-  }
 }
 
 void loop()
@@ -209,14 +205,24 @@ void Buttons() {
     counter = 1;
     Serial.println(counter);
     while (counter = 1) {
-      for (i = 0; i <= snakeLength - 1; i++) {
-        if (i == 0) {
+      matrix.drawPixel(snakeX[0], snakeY[0], matrix.Color(0, 0, 0));
+      snakeX[0]--;
+      for (i = 1; i <= snakeLength - 1; i++) {
+        if (i == 1) {
           matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
-          snakeX[0]--;
+          if (snakeX[i] - snakeX[i - 1] == 2) {
+            snakeX[i]--;
+          }
+          else if (snakeY[i] - snakeY[i - 1] == -1) {
+            snakeY[i]++;
+          }
+          else if (snakeY[i] - snakeY[i - 1] == 1) {
+            snakeY[i]--;
+          }
         }
         else {
           matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
-          if (snakeX[i] - snakeX[i - 1] == 2) {
+          if (snakeX[i] - snakeX[i - 1] == 1) {
             snakeX[i]--;
           }
           else if (snakeY[i] - snakeY[i - 1] == -1) {
@@ -237,14 +243,24 @@ void Buttons() {
     counter = 2;
     Serial.println(counter);
     while (counter = 2) {
-      for (i = 0; i <= snakeLength - 1; i++) {
-        if (i == 0) {
+      matrix.drawPixel(snakeX[0], snakeY[0], matrix.Color(0, 0, 0));
+      snakeX[0]++;
+      for (i = 1; i <= snakeLength - 1; i++) {
+        if (i == 1) {
           matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
-          snakeX[0]++;
+          if (snakeX[i] - snakeX[i - 1] == -2) {
+            snakeX[i]++;
+          }
+          else if (snakeY[i] - snakeY[i - 1] == -1) {
+            snakeY[i]++;
+          }
+          else if (snakeY[i] - snakeY[i - 1] == 1) {
+            snakeY[i]--;
+          }
         }
         else {
           matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
-          if (snakeX[i] - snakeX[i - 1] == -2) {
+          if (snakeX[i] - snakeX[i - 1] == -1) {
             snakeX[i]++;
           }
           else if (snakeY[i] - snakeY[i - 1] == -1) {
@@ -265,20 +281,30 @@ void Buttons() {
     counter = 3;
     Serial.println(counter);
     while (counter = 3) {
-      for (i = 0; i <= snakeLength - 1; i++) {
-        if (i == 0) {
+      matrix.drawPixel(snakeX[0], snakeY[0], matrix.Color(0, 0, 0));
+      snakeY[0]++;
+      for (i = 1; i <= snakeLength - 1; i++) {
+        if (i == 1) {
           matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
-          snakeY[0]++;
-        }
-        else {
-                    matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
           if (snakeY[i] - snakeY[i - 1] == -2) {
             snakeY[i]++;
           }
-          else if (snakeX[i] - snakeX[i - 1] == -1) {
+          else if (snakeX[i] - snakeX[i - 1] == 1) {
             snakeX[i]--;
           }
+          else if (snakeX[i] - snakeX[i - 1] == -1) {
+            snakeX[i]++;
+          }
+        }
+        else {
+          matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
+          if (snakeY[i] - snakeY[i - 1] == -1) {
+            snakeY[i]++;
+          }
           else if (snakeX[i] - snakeX[i - 1] == 1) {
+            snakeX[i]--;
+          }
+          else if (snakeX[i] - snakeX[i - 1] == -1) {
             snakeX[i]++;
           }
         }
@@ -293,20 +319,30 @@ void Buttons() {
     counter = 4;
     Serial.println(counter);
     while (counter = 4) {
-      for (i = 0; i <= snakeLength - 1; i++) {
-        if (i == 0) {
+      matrix.drawPixel(snakeX[0], snakeY[0], matrix.Color(0, 0, 0));
+      snakeY[0]--;
+      for (i = 1; i <= snakeLength - 1; i++) {
+        if (i == 1) {
           matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
-          snakeY[0]--;
-        }
-        else {
-                    matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
           if (snakeY[i] - snakeY[i - 1] == 2) {
             snakeY[i]--;
           }
-          else if (snakeX[i] - snakeX[i - 1] == -1) {
+          else if (snakeX[i] - snakeX[i - 1] == 1) {
             snakeX[i]--;
           }
+          else if (snakeX[i] - snakeX[i - 1] == -1) {
+            snakeX[i]++;
+          }
+        }
+        else {
+          matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
+          if (snakeY[i] - snakeY[i - 1] == 1) {
+            snakeY[i]--;
+          }
           else if (snakeX[i] - snakeX[i - 1] == 1) {
+            snakeX[i]--;
+          }
+          else if (snakeX[i] - snakeX[i - 1] == -1) {
             snakeX[i]++;
           }
         }
