@@ -3,7 +3,7 @@
 #include <Adafruit_NeoPixel.h>
 #include <Vector.h>
 
-//checked
+//thanks to adityamittal13 for his conceptual help!
 
 #ifndef PSTR
 #define PSTR // Make Arduino Due happy
@@ -105,8 +105,10 @@ void setup() {
 
 void loop()
 {
-  Buttons();
-  checkFruit();
+  RButton();
+  LButton();
+  UButton();
+  DButton();
   matrix.show();
 }
 
@@ -119,7 +121,7 @@ void initializeFruit() {
 void makeSnake() {
   for (i = 0; i <= snakeLength - 1; i++) {
     matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 128));
-    matrix.show();\
+    matrix.show();
   }
 }
 
@@ -139,22 +141,20 @@ void GameOver() {
       matrix.clear();
       matrix.fillRect(0, 0, 17, 34, matrix.Color(246, 70, 91));
       matrix.show();
+      exit(1);
     }
     else if (snakeX[0] == 0 || snakeX[0] == 17 || snakeY[0] == 0 || snakeY[0] == 34) {
       matrix.clear();
       matrix.fillRect(0, 0, 17, 34, matrix.Color(246, 70, 91));
       matrix.show();
+      exit(1);
     }
   }
 }
 
 
-void Buttons() {
+void RButton() {
   RbuttonState = digitalRead(RbuttonPin);
-  LbuttonState = digitalRead(LbuttonPin);
-  UbuttonState = digitalRead(UbuttonPin);
-  DbuttonState = digitalRead(DbuttonPin);
-
   if (RbuttonState == HIGH) {
     counter = 1;
     Serial.println(counter);
@@ -176,10 +176,15 @@ void Buttons() {
       makeSnake();
       delay(wait);
       checkFruit();
+      LButton();
+      UButton();
+      DButton();
       GameOver();
     }
   }
-
+}
+void LButton() {
+  LbuttonState = digitalRead(LbuttonPin);
   if (LbuttonState == HIGH) {
     counter = 2;
     Serial.println(counter);
@@ -201,9 +206,16 @@ void Buttons() {
       makeSnake();
       delay(wait);
       checkFruit();
+      RButton();
+      UButton();
+      DButton();
       GameOver();
     }
   }
+}
+void UButton() {
+
+  UbuttonState = digitalRead(UbuttonPin);
 
   if (UbuttonState == HIGH) {
     counter = 3;
@@ -226,9 +238,15 @@ void Buttons() {
       makeSnake();
       delay(wait);
       checkFruit();
+      RButton();
+      LButton();
+      DButton();
       GameOver();
     }
   }
+}
+void DButton() {
+  DbuttonState = digitalRead(DbuttonPin);
 
   if (DbuttonState == HIGH) {
     counter = 4;
@@ -251,6 +269,9 @@ void Buttons() {
       makeSnake();
       delay(wait);
       checkFruit();
+      RButton();
+      LButton();
+      UButton();
       GameOver();
     }
   }
@@ -290,6 +311,6 @@ void checkFruit() {
     matrix.show();
   }
   else {
-    Buttons();
+    return;
   }
 }
