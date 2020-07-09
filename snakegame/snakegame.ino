@@ -110,6 +110,152 @@ void loop()
   matrix.show();
 }
 
+void initializeFruit() {
+  matrix.drawPixel(x, y, matrix.Color(255, 0, 99));
+  matrix.show();
+}
+
+
+void makeSnake() {
+  for (i = 0; i <= snakeLength - 1; i++) {
+    matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 128));
+    matrix.show();\
+  }
+}
+
+void resetFruit() {
+  x = 0;
+  y = 0;
+  x = random(2, 14);
+  y = random(2, 32);
+  matrix.drawPixel(x, y, matrix.Color(255, 0, 99));
+  matrix.show();
+}
+
+
+void GameOver() {
+  for (i = 1; i <= snakeLength - 1; i++) {
+    if (snakeX[0] == snakeX[i] && snakeY[0] == snakeY[i]) {
+      matrix.clear();
+      matrix.fillRect(0, 0, 17, 34, matrix.Color(246, 70, 91));
+      matrix.show();
+    }
+    else if (snakeX[0] == 0 || snakeX[0] == 17 || snakeY[0] == 0 || snakeY[0] == 34) {
+      matrix.clear();
+      matrix.fillRect(0, 0, 17, 34, matrix.Color(246, 70, 91));
+      matrix.show();
+    }
+  }
+}
+
+
+void Buttons() {
+  RbuttonState = digitalRead(RbuttonPin);
+  LbuttonState = digitalRead(LbuttonPin);
+  UbuttonState = digitalRead(UbuttonPin);
+  DbuttonState = digitalRead(DbuttonPin);
+
+  if (RbuttonState == HIGH) {
+    counter = 1;
+    Serial.println(counter);
+    while (counter = 1) {
+      matrix.drawPixel(snakeX[0], snakeY[0], matrix.Color(0, 0, 0));
+      snakeX[0]--;
+      for (i = 1; i <= snakeLength - 1; i++) {
+        matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
+        if (snakeX[i] - snakeX[i - 1] == 2) {
+          snakeX[i]--;
+        }
+        else if (snakeY[i] - snakeY[i - 1] == -2 || snakeY[i] - snakeY[i - 1] == -1) {
+          snakeY[i]++;
+        }
+        else if (snakeY[i] - snakeY[i - 1] == 2 || snakeY[i] - snakeY[i - 1] == 1) {
+          snakeY[i]--;
+        }
+      }
+      makeSnake();
+      delay(wait);
+      checkFruit();
+      GameOver();
+    }
+  }
+
+  if (LbuttonState == HIGH) {
+    counter = 2;
+    Serial.println(counter);
+    while (counter = 2) {
+      matrix.drawPixel(snakeX[0], snakeY[0], matrix.Color(0, 0, 0));
+      snakeX[0]++;
+      for (i = 1; i <= snakeLength - 1; i++) {
+        matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
+        if (snakeX[i] - snakeX[i - 1] == -2) {
+          snakeX[i]++;
+        }
+        else if (snakeY[i] - snakeY[i - 1] == -2 || snakeY[i] - snakeY[i - 1] == -1) {
+          snakeY[i]++;
+        }
+        else if (snakeY[i] - snakeY[i - 1] == 2 || snakeY[i] - snakeY[i - 1] == 1) {
+          snakeY[i]--;
+        }
+      }
+      makeSnake();
+      delay(wait);
+      checkFruit();
+      GameOver();
+    }
+  }
+
+  if (UbuttonState == HIGH) {
+    counter = 3;
+    Serial.println(counter);
+    while (counter = 3) {
+      matrix.drawPixel(snakeX[0], snakeY[0], matrix.Color(0, 0, 0));
+      snakeY[0]++;
+      for (i = 1; i <= snakeLength - 1; i++) {
+        matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
+        if (snakeY[i] - snakeY[i - 1] == -2) {
+          snakeY[i]++;
+        }
+        else if (snakeX[i] - snakeX[i - 1] == 2 || snakeX[i] - snakeX[i - 1] == 1) {
+          snakeX[i]--;
+        }
+        else if (snakeX[i] - snakeX[i - 1] == -2 || snakeX[i] - snakeX[i - 1] == -1) {
+          snakeX[i]++;
+        }
+      }
+      makeSnake();
+      delay(wait);
+      checkFruit();
+      GameOver();
+    }
+  }
+
+  if (DbuttonState == HIGH) {
+    counter = 4;
+    Serial.println(counter);
+    while (counter = 4) {
+      matrix.drawPixel(snakeX[0], snakeY[0], matrix.Color(0, 0, 0));
+      snakeY[0]--;
+      for (i = 1; i <= snakeLength - 1; i++) {
+        matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
+        if (snakeY[i] - snakeY[i - 1] == 2) {
+          snakeY[i]--;
+        }
+        else if (snakeX[i] - snakeX[i - 1] == 2 || snakeX[i] - snakeX[i - 1] == 1) {
+          snakeX[i]--;
+        }
+        else if (snakeX[i] - snakeX[i - 1] == -2 || snakeX[i] - snakeX[i - 1] == -1) {
+          snakeX[i]++;
+        }
+      }
+      makeSnake();
+      delay(wait);
+      checkFruit();
+      GameOver();
+    }
+  }
+}
+
 void checkFruit() {
   if (snakeX[0] == x && snakeY[0] == y) {
     snakeLength++;
@@ -145,150 +291,5 @@ void checkFruit() {
   }
   else {
     Buttons();
-  }
-}
-
-void GameOver() {
-  for (i = 1; i <= snakeLength - 1; i++) {
-    if (snakeX[0] == snakeX[i] && snakeY[0] == snakeY[i]) {
-      matrix.clear();
-      matrix.fillRect(0, 0, 17, 34, matrix.Color(246, 70, 91));
-      matrix.show();
-    }
-    else if (snakeX[0] == 0 || snakeX[0] == 17 || snakeY[0] == 0 || snakeY[0] == 34) {
-      matrix.clear();
-      matrix.fillRect(0, 0, 17, 34, matrix.Color(246, 70, 91));
-      matrix.show();
-    }
-  }
-}
-}
-
-void makeSnake() {
-  for (i = 0; i <= snakeLength - 1; i++) {
-    matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 128));
-    matrix.show();
-  }
-}
-
-
-void initializeFruit() {
-  matrix.drawPixel(x, y, matrix.Color(255, 0, 99));
-  matrix.show();
-}
-
-void resetFruit() {
-  x = 0;
-  y = 0;
-  x = random(2, 14);
-  y = random(2, 32);
-  matrix.drawPixel(x, y, matrix.Color(255, 0, 99));
-  matrix.show();
-}
-
-void Buttons() {
-  RbuttonState = digitalRead(RbuttonPin);
-  LbuttonState = digitalRead(LbuttonPin);
-  UbuttonState = digitalRead(UbuttonPin);
-  DbuttonState = digitalRead(DbuttonPin);
-
-  if (RbuttonState == HIGH) {
-    counter = 1;
-    Serial.println(counter);
-    while (counter = 1) {
-      matrix.drawPixel(snakeX[0], snakeY[0], matrix.Color(0, 0, 0));
-      snakeX[0]--;
-      for (i = 1; i <= snakeLength - 1; i++) {
-        matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
-        if (snakeX[i] - snakeX[i - 1] == 2) {
-          snakeX[i]--;
-        }
-        else if (snakeY[i] - snakeY[i - 1] == -2 || snakeY[i] - snakeY[i - 1] == -1) {
-          snakeY[i]++;
-        }
-        else if (snakeY[i] - snakeY[i - 1] == 2 || snakeY[i] - snakeY[i - 1] == 1) {
-          snakeY[i]--;
-        }
-      }
-      makeSnake();
-      checkFruit();
-      GameOver();
-      delay(wait);
-    }
-  }
-
-  if (LbuttonState == HIGH) {
-    counter = 2;
-    Serial.println(counter);
-    while (counter = 2) {
-      matrix.drawPixel(snakeX[0], snakeY[0], matrix.Color(0, 0, 0));
-      snakeX[0]++;
-      for (i = 1; i <= snakeLength - 1; i++) {
-        matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
-        if (snakeX[i] - snakeX[i - 1] == -2) {
-          snakeX[i]++;
-        }
-        else if (snakeY[i] - snakeY[i - 1] == -2 || snakeY[i] - snakeY[i - 1] == -1) {
-          snakeY[i]++;
-        }
-        else if (snakeY[i] - snakeY[i - 1] == 2 || snakeY[i] - snakeY[i - 1] == 1) {
-          snakeY[i]--;
-        }
-      }
-      makeSnake();
-      checkFruit();
-      GameOver();
-      delay(wait);
-    }
-  }
-
-  if (UbuttonState == HIGH) {
-    counter = 3;
-    Serial.println(counter);
-    while (counter = 3) {
-      matrix.drawPixel(snakeX[0], snakeY[0], matrix.Color(0, 0, 0));
-      snakeY[0]++;
-      for (i = 1; i <= snakeLength - 1; i++) {
-        matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
-        if (snakeY[i] - snakeY[i - 1] == -2) {
-          snakeY[i]++;
-        }
-        else if (snakeX[i] - snakeX[i - 1] == 2 || snakeX[i] - snakeX[i - 1] == 1) {
-          snakeX[i]--;
-        }
-        else if (snakeX[i] - snakeX[i - 1] == -2 || snakeX[i] - snakeX[i - 1] == -1) {
-          snakeX[i]++;
-        }
-      }
-      makeSnake();
-      checkFruit();
-      GameOver();
-      delay(wait);
-    }
-  }
-
-  if (DbuttonState == HIGH) {
-    counter = 4;
-    Serial.println(counter);
-    while (counter = 4) {
-      matrix.drawPixel(snakeX[0], snakeY[0], matrix.Color(0, 0, 0));
-      snakeY[0]--;
-      for (i = 1; i <= snakeLength - 1; i++) {
-        matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
-        if (snakeY[i] - snakeY[i - 1] == 2) {
-          snakeY[i]--;
-        }
-        else if (snakeX[i] - snakeX[i - 1] == 2 || snakeX[i] - snakeX[i - 1] == 1) {
-          snakeX[i]--;
-        }
-        else if (snakeX[i] - snakeX[i - 1] == -2 || snakeX[i] - snakeX[i - 1] == -1) {
-          snakeX[i]++;
-        }
-      }
-      makeSnake();
-      checkFruit();
-      GameOver();
-      delay(wait);
-    }
   }
 }
