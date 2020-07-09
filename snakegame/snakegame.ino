@@ -43,13 +43,6 @@ Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(mh, mw, PIN,
                             NEO_MATRIX_TOP     + NEO_MATRIX_RIGHT +
                             NEO_MATRIX_COLUMNS + NEO_MATRIX_ZIGZAG,
                             NEO_GRB            + NEO_KHZ800);
-//Snake game Pseudocode
-//1. Have a Rectangle that if the snake hits, he dies and game stops. BONUS: If snake goes over itself, the game stops,
-//2. Make it so that a food particle goes in random places. BONUS: When Snake touches it, food goes to random place and snake gets longer by 1 length.
-//Cant make new fruit where snake is.
-
-
-//MAKE A CUSTOMIZED WAIT FUNCTION
 
 int i;
 
@@ -135,18 +128,23 @@ void resetFruit() {
 
 
 void GameOver() {
-  for (i = 1; i <= snakeLength - 1; i++) {
+  if (snakeX[0] == 0 || snakeX[0] == 17 || snakeY[0] == 0 || snakeY[0] == 34) {
+      matrix.clear();
+      matrix.fillRect(0, 0, 17, 34, matrix.Color(246, 70, 91));
+      matrix.show();
+      exit(1);
+  }
+  else{
+    for (i = 1; i <= snakeLength - 1; i++) {
     if (snakeX[0] == snakeX[i] && snakeY[0] == snakeY[i]) {
       matrix.clear();
       matrix.fillRect(0, 0, 17, 34, matrix.Color(246, 70, 91));
       matrix.show();
       exit(1);
     }
-    else if (snakeX[0] == 0 || snakeX[0] == 17 || snakeY[0] == 0 || snakeY[0] == 34) {
-      matrix.clear();
-      matrix.fillRect(0, 0, 17, 34, matrix.Color(246, 70, 91));
-      matrix.show();
-      exit(1);
+    else {
+      continue;
+    }
     }
   }
 }
