@@ -222,13 +222,13 @@ void Buttons() {
         }
         else {
           matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
-          if (snakeX[i] - snakeX[i - 1] == 1) {
+          if (snakeX[i] - snakeX[i - 1] == 2) {
             snakeX[i]--;
           }
-          else if (snakeY[i] - snakeY[i - 1] == -1) {
+          else if (snakeY[i] - snakeY[i - 1] == -2 || snakeY[i] - snakeY[i - 1] == -1) {
             snakeY[i]++;
           }
-          else if (snakeY[i] - snakeY[i - 1] == 1) {
+          else if (snakeY[i] - snakeY[i - 1] == 2 || snakeY[i] - snakeY[i - 1] == 1) {
             snakeY[i]--;
           }
         }
@@ -260,13 +260,13 @@ void Buttons() {
         }
         else {
           matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
-          if (snakeX[i] - snakeX[i - 1] == -1) {
+          if (snakeX[i] - snakeX[i - 1] == -2) {
             snakeX[i]++;
           }
-          else if (snakeY[i] - snakeY[i - 1] == -1) {
+          else if (snakeY[i] - snakeY[i - 1] == -2 || snakeY[i] - snakeY[i - 1] == -1) {
             snakeY[i]++;
           }
-          else if (snakeY[i] - snakeY[i - 1] == 1) {
+          else if (snakeY[i] - snakeY[i - 1] == 2 || snakeY[i] - snakeY[i - 1] == 1) {
             snakeY[i]--;
           }
         }
@@ -298,13 +298,13 @@ void Buttons() {
         }
         else {
           matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
-          if (snakeY[i] - snakeY[i - 1] == -1) {
+          if (snakeY[i] - snakeY[i - 1] == -2) {
             snakeY[i]++;
           }
-          else if (snakeX[i] - snakeX[i - 1] == 1) {
+          else if (snakeX[i] - snakeX[i - 1] == 2 || snakeX[i] - snakeX[i - 1] == 1) {
             snakeX[i]--;
           }
-          else if (snakeX[i] - snakeX[i - 1] == -1) {
+          else if (snakeX[i] - snakeX[i - 1] == -2 || snakeX[i] - snakeX[i - 1] == -1) {
             snakeX[i]++;
           }
         }
@@ -336,13 +336,13 @@ void Buttons() {
         }
         else {
           matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
-          if (snakeY[i] - snakeY[i - 1] == 1) {
+          if (snakeY[i] - snakeY[i - 1] == 2) {
             snakeY[i]--;
           }
-          else if (snakeX[i] - snakeX[i - 1] == 1) {
+          else if (snakeX[i] - snakeX[i - 1] == 2 || snakeX[i] - snakeX[i - 1] == 1) {
             snakeX[i]--;
           }
-          else if (snakeX[i] - snakeX[i - 1] == -1) {
+          else if (snakeX[i] - snakeX[i - 1] == -2 || snakeX[i] - snakeX[i - 1] == -1) {
             snakeX[i]++;
           }
         }
