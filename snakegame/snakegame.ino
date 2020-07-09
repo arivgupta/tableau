@@ -108,22 +108,6 @@ void loop()
   matrix.show();
 }
 
-/*
-
-  void plusOne() {
-  if (counter == (3 || 4)) {
-    matrix.drawPixel(snakeX, snakeY++, matrix.Color(0, 0, 128));
-    matrix.show();
-  }
-  if (counter == (1 || 2)) {
-    matrix.drawPixel(snakeX++, snakeY, matrix.Color(0, 0, 128));
-    matrix.show();
-  }
-
-  }
-
-*/
-
 void checkFruit() {
   if (snakeX[0] == x && snakeY[0] == y) {
     snakeLength++;
@@ -167,16 +151,19 @@ void GameOver() {
     matrix.fillRect(0, 0, 17, 34, matrix.Color(246, 70, 91));
     matrix.show();
   }
-  /*for (k = 1, k <= snakeLEngth - 1, k++) {
-    if ();
-    }*/
+  for (i = 1; i <= snakeLength - 1; i++) {
+    if (snakeX[0] == snakeX[i] && snakeY[0] == snakeY[i]) {
+      matrix.clear();
+      matrix.fillRect(0, 0, 17, 34, matrix.Color(246, 70, 91));
+      matrix.show();
+    }
+  }
 }
 
 void makeSnake() {
   for (i = 0; i <= snakeLength - 1; i++) {
     matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 128));
     matrix.show();
-    delay(250);
   }
 }
 
@@ -234,6 +221,7 @@ void Buttons() {
         }
       }
       makeSnake();
+      delay(200);
       checkFruit();
       GameOver();
     }
@@ -272,6 +260,7 @@ void Buttons() {
         }
       }
       makeSnake();
+      delay(200);
       checkFruit();
       GameOver();
     }
@@ -310,6 +299,7 @@ void Buttons() {
         }
       }
       makeSnake();
+      delay(200);
       checkFruit();
       GameOver();
     }
@@ -348,6 +338,7 @@ void Buttons() {
         }
       }
       makeSnake();
+      delay(200);
       checkFruit();
       GameOver();
     }
