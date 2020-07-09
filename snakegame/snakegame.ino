@@ -52,7 +52,9 @@ Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(mh, mw, PIN,
 
 //MAKE A CUSTOMIZED WAIT FUNCTION
 
-int i = 1;
+int i;
+
+int wait = 200;
 
 int x = random(1, 15);
 int y = random(1, 33);
@@ -71,7 +73,7 @@ int UbuttonState = 0;         // current state of the button
 
 int DbuttonState = 0;         // current state of the button
 
-const int MAX_SNAKE_LENGTH = 25;
+const long MAX_SNAKE_LENGTH = 25;
 
 //double array is the arduino board
 //if the snake is on a certian coordinate, it is changed from zero to 1,
@@ -111,6 +113,7 @@ void loop()
 void checkFruit() {
   if (snakeX[0] == x && snakeY[0] == y) {
     snakeLength++;
+    wait = wait - snakeLength * 3;
     int temp = snakeX[0];
     int temp2;
     int temp3 = snakeY[0];
@@ -146,18 +149,19 @@ void checkFruit() {
 }
 
 void GameOver() {
-  if (snakeX[0] == 0 || snakeX[0] == 17 || snakeY[0] == 0 || snakeY[0] == 34) {
-    matrix.clear();
-    matrix.fillRect(0, 0, 17, 34, matrix.Color(246, 70, 91));
-    matrix.show();
-  }
   for (i = 1; i <= snakeLength - 1; i++) {
     if (snakeX[0] == snakeX[i] && snakeY[0] == snakeY[i]) {
       matrix.clear();
       matrix.fillRect(0, 0, 17, 34, matrix.Color(246, 70, 91));
       matrix.show();
     }
+    else if (snakeX[0] == 0 || snakeX[0] == 17 || snakeY[0] == 0 || snakeY[0] == 34) {
+      matrix.clear();
+      matrix.fillRect(0, 0, 17, 34, matrix.Color(246, 70, 91));
+      matrix.show();
+    }
   }
+}
 }
 
 void makeSnake() {
@@ -195,35 +199,21 @@ void Buttons() {
       matrix.drawPixel(snakeX[0], snakeY[0], matrix.Color(0, 0, 0));
       snakeX[0]--;
       for (i = 1; i <= snakeLength - 1; i++) {
-        if (i == 1) {
-          matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
-          if (snakeX[i] - snakeX[i - 1] == 2) {
-            snakeX[i]--;
-          }
-          else if (snakeY[i] - snakeY[i - 1] == -1) {
-            snakeY[i]++;
-          }
-          else if (snakeY[i] - snakeY[i - 1] == 1) {
-            snakeY[i]--;
-          }
+        matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
+        if (snakeX[i] - snakeX[i - 1] == 2) {
+          snakeX[i]--;
         }
-        else {
-          matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
-          if (snakeX[i] - snakeX[i - 1] == 2) {
-            snakeX[i]--;
-          }
-          else if (snakeY[i] - snakeY[i - 1] == -2 || snakeY[i] - snakeY[i - 1] == -1) {
-            snakeY[i]++;
-          }
-          else if (snakeY[i] - snakeY[i - 1] == 2 || snakeY[i] - snakeY[i - 1] == 1) {
-            snakeY[i]--;
-          }
+        else if (snakeY[i] - snakeY[i - 1] == -2 || snakeY[i] - snakeY[i - 1] == -1) {
+          snakeY[i]++;
+        }
+        else if (snakeY[i] - snakeY[i - 1] == 2 || snakeY[i] - snakeY[i - 1] == 1) {
+          snakeY[i]--;
         }
       }
       makeSnake();
-      delay(200);
       checkFruit();
       GameOver();
+      delay(wait);
     }
   }
 
@@ -234,35 +224,21 @@ void Buttons() {
       matrix.drawPixel(snakeX[0], snakeY[0], matrix.Color(0, 0, 0));
       snakeX[0]++;
       for (i = 1; i <= snakeLength - 1; i++) {
-        if (i == 1) {
-          matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
-          if (snakeX[i] - snakeX[i - 1] == -2) {
-            snakeX[i]++;
-          }
-          else if (snakeY[i] - snakeY[i - 1] == -1) {
-            snakeY[i]++;
-          }
-          else if (snakeY[i] - snakeY[i - 1] == 1) {
-            snakeY[i]--;
-          }
+        matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
+        if (snakeX[i] - snakeX[i - 1] == -2) {
+          snakeX[i]++;
         }
-        else {
-          matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
-          if (snakeX[i] - snakeX[i - 1] == -2) {
-            snakeX[i]++;
-          }
-          else if (snakeY[i] - snakeY[i - 1] == -2 || snakeY[i] - snakeY[i - 1] == -1) {
-            snakeY[i]++;
-          }
-          else if (snakeY[i] - snakeY[i - 1] == 2 || snakeY[i] - snakeY[i - 1] == 1) {
-            snakeY[i]--;
-          }
+        else if (snakeY[i] - snakeY[i - 1] == -2 || snakeY[i] - snakeY[i - 1] == -1) {
+          snakeY[i]++;
+        }
+        else if (snakeY[i] - snakeY[i - 1] == 2 || snakeY[i] - snakeY[i - 1] == 1) {
+          snakeY[i]--;
         }
       }
       makeSnake();
-      delay(200);
       checkFruit();
       GameOver();
+      delay(wait);
     }
   }
 
@@ -273,35 +249,21 @@ void Buttons() {
       matrix.drawPixel(snakeX[0], snakeY[0], matrix.Color(0, 0, 0));
       snakeY[0]++;
       for (i = 1; i <= snakeLength - 1; i++) {
-        if (i == 1) {
-          matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
-          if (snakeY[i] - snakeY[i - 1] == -2) {
-            snakeY[i]++;
-          }
-          else if (snakeX[i] - snakeX[i - 1] == 1) {
-            snakeX[i]--;
-          }
-          else if (snakeX[i] - snakeX[i - 1] == -1) {
-            snakeX[i]++;
-          }
+        matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
+        if (snakeY[i] - snakeY[i - 1] == -2) {
+          snakeY[i]++;
         }
-        else {
-          matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
-          if (snakeY[i] - snakeY[i - 1] == -2) {
-            snakeY[i]++;
-          }
-          else if (snakeX[i] - snakeX[i - 1] == 2 || snakeX[i] - snakeX[i - 1] == 1) {
-            snakeX[i]--;
-          }
-          else if (snakeX[i] - snakeX[i - 1] == -2 || snakeX[i] - snakeX[i - 1] == -1) {
-            snakeX[i]++;
-          }
+        else if (snakeX[i] - snakeX[i - 1] == 2 || snakeX[i] - snakeX[i - 1] == 1) {
+          snakeX[i]--;
+        }
+        else if (snakeX[i] - snakeX[i - 1] == -2 || snakeX[i] - snakeX[i - 1] == -1) {
+          snakeX[i]++;
         }
       }
       makeSnake();
-      delay(200);
       checkFruit();
       GameOver();
+      delay(wait);
     }
   }
 
@@ -312,35 +274,21 @@ void Buttons() {
       matrix.drawPixel(snakeX[0], snakeY[0], matrix.Color(0, 0, 0));
       snakeY[0]--;
       for (i = 1; i <= snakeLength - 1; i++) {
-        if (i == 1) {
-          matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
-          if (snakeY[i] - snakeY[i - 1] == 2) {
-            snakeY[i]--;
-          }
-          else if (snakeX[i] - snakeX[i - 1] == 1) {
-            snakeX[i]--;
-          }
-          else if (snakeX[i] - snakeX[i - 1] == -1) {
-            snakeX[i]++;
-          }
+        matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
+        if (snakeY[i] - snakeY[i - 1] == 2) {
+          snakeY[i]--;
         }
-        else {
-          matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
-          if (snakeY[i] - snakeY[i - 1] == 2) {
-            snakeY[i]--;
-          }
-          else if (snakeX[i] - snakeX[i - 1] == 2 || snakeX[i] - snakeX[i - 1] == 1) {
-            snakeX[i]--;
-          }
-          else if (snakeX[i] - snakeX[i - 1] == -2 || snakeX[i] - snakeX[i - 1] == -1) {
-            snakeX[i]++;
-          }
+        else if (snakeX[i] - snakeX[i - 1] == 2 || snakeX[i] - snakeX[i - 1] == 1) {
+          snakeX[i]--;
+        }
+        else if (snakeX[i] - snakeX[i - 1] == -2 || snakeX[i] - snakeX[i - 1] == -1) {
+          snakeX[i]++;
         }
       }
       makeSnake();
-      delay(200);
       checkFruit();
       GameOver();
+      delay(wait);
     }
   }
 }
