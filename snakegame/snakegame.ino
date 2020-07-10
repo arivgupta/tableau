@@ -99,7 +99,7 @@ void loop()
 }
 
 void initializeFruit() {
-  matrix.drawPixel(x, y, matrix.Color(0, 0, 128));
+  matrix.drawPixel(x, y, matrix.Color(0, 255, 0));
   matrix.show();
 }
 
@@ -116,7 +116,7 @@ void resetFruit() {
   y = 0;
   x = random(2, 14);
   y = random(2, 32);
-  matrix.drawPixel(x, y, matrix.Color(0, 0, 128));
+  matrix.drawPixel(x, y, matrix.Color(0, 255, 0));
   matrix.show();
 }
 
