@@ -81,7 +81,7 @@ void setup() {
   matrix.begin();
   matrix.setTextWrap(false);
   Serial.begin(9600);
-  matrix.setBrightness(30);
+  matrix.setBrightness(60);
   initializeFruit();
   matrix.drawRect(0, 0, 17, 34, matrix.Color(255, 0, 0));
   snakeX[0] = 4;
@@ -99,14 +99,14 @@ void loop()
 }
 
 void initializeFruit() {
-  matrix.drawPixel(x, y, matrix.Color(255, 0, 99));
+  matrix.drawPixel(x, y, matrix.Color(0, 0, 128));
   matrix.show();
 }
 
 
 void makeSnake() {
   for (i = 0; i <= snakeLength - 1; i++) {
-    matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 128));
+    matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(255, 0, 99));
     matrix.show();
   }
 }
@@ -116,7 +116,7 @@ void resetFruit() {
   y = 0;
   x = random(2, 14);
   y = random(2, 32);
-  matrix.drawPixel(x, y, matrix.Color(255, 0, 99));
+  matrix.drawPixel(x, y, matrix.Color(0, 0, 128));
   matrix.show();
 }
 
