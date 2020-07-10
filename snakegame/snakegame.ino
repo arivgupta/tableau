@@ -123,22 +123,22 @@ void resetFruit() {
 
 void GameOver() {
   if (snakeX[0] == 0 || snakeX[0] == 17 || snakeY[0] == 0 || snakeY[0] == 34) {
-      matrix.clear();
-      matrix.fillRect(0, 0, 17, 34, matrix.Color(246, 70, 91));
-      matrix.show();
-      exit(1);
+    matrix.clear();
+    matrix.fillRect(0, 0, 17, 34, matrix.Color(246, 70, 91));
+    matrix.show();
+    exit(1);
   }
-  else{
+  else {
     for (i = 1; i <= snakeLength - 1; i++) {
-    if (snakeX[0] == snakeX[i] && snakeY[0] == snakeY[i]) {
-      matrix.clear();
-      matrix.fillRect(0, 0, 17, 34, matrix.Color(246, 70, 91));
-      matrix.show();
-      exit(1);
-    }
-    else {
-      continue;
-    }
+      if (snakeX[0] == snakeX[i] && snakeY[0] == snakeY[i]) {
+        matrix.clear();
+        matrix.fillRect(0, 0, 17, 34, matrix.Color(246, 70, 91));
+        matrix.show();
+        exit(1);
+      }
+      else {
+        continue;
+      }
     }
   }
 }
@@ -156,6 +156,9 @@ void RButton() {
         matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
         if (snakeX[i] - snakeX[i - 1] == 2) {
           snakeX[i]--;
+        }
+        if (snakeX[i] - snakeX[i - 1] == -2) {
+          snakeX[i]++;
         }
         else if (snakeY[i] - snakeY[i - 1] == -2 || snakeY[i] - snakeY[i - 1] == -1) {
           snakeY[i]++;
@@ -186,6 +189,9 @@ void LButton() {
         matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
         if (snakeX[i] - snakeX[i - 1] == -2) {
           snakeX[i]++;
+        }
+        if (snakeX[i] - snakeX[i - 1] == 2) {
+          snakeX[i]--;
         }
         else if (snakeY[i] - snakeY[i - 1] == -2 || snakeY[i] - snakeY[i - 1] == -1) {
           snakeY[i]++;
@@ -219,6 +225,9 @@ void UButton() {
         if (snakeY[i] - snakeY[i - 1] == -2) {
           snakeY[i]++;
         }
+        if (snakeY[i] - snakeY[i - 1] == 2) {
+          snakeY[i]--;
+        }
         else if (snakeX[i] - snakeX[i - 1] == 2 || snakeX[i] - snakeX[i - 1] == 1) {
           snakeX[i]--;
         }
@@ -249,6 +258,9 @@ void DButton() {
         matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
         if (snakeY[i] - snakeY[i - 1] == 2) {
           snakeY[i]--;
+        }
+        if (snakeY[i] - snakeY[i - 1] == -2) {
+          snakeY[i]++;
         }
         else if (snakeX[i] - snakeX[i - 1] == 2 || snakeX[i] - snakeX[i - 1] == 1) {
           snakeX[i]--;
