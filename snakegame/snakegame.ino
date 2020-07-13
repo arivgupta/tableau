@@ -1,8 +1,12 @@
+//Snake Game
+//By: Ariv Gupta, @arivgups
+//For Neopixel Matrix Rigged up with Strips or Just a Plain Old Matrix
+//Utilizes Pushbuttons. Would love to see your iteration!
+//thanks to adityamittal13 for his conceptual help!
+
 #include <Adafruit_GFX.h>
 #include <Adafruit_NeoMatrix.h>
 #include <Adafruit_NeoPixel.h>
-
-//thanks to adityamittal13 for his conceptual help!
 
 #ifndef PSTR
 #define PSTR // Make Arduino Due happy
@@ -44,9 +48,9 @@ Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(mh, mw, PIN,
                             NEO_MATRIX_COLUMNS + NEO_MATRIX_ZIGZAG,
                             NEO_GRB            + NEO_KHZ800);
 
-int i;
+int i; //declaring i for the for loops coming soon
 
-int wait = 200;
+int wait = 200; //created so we can easily make changes to our delay based on the size of the board
 
 int x = random(1, 15);
 int y = random(1, 33);
@@ -89,7 +93,7 @@ void setup() {
   makeSnake();
 }
 
-void loop()
+void loop() //running code to check buttons. From there, code will loop through and check for other values
 {
   RButton();
   LButton();
