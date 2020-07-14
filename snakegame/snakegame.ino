@@ -14,10 +14,10 @@
 
 #define PIN 6
 
-#define mw 34
-#define mh 17
+#define mw 34 //Width of Matrix, In my case, the Y Axis
+#define mh 17 //Height of Matrix, In my case, the X Axis
 
-// MATRIX DECLARATION:
+// MATRIX DECLARATION(Taken from Neopixel Library):
 // Parameter 1 = width of NeoPixel matrix
 // Parameter 2 = height of matrix
 // Parameter 3 = pin number (most are valid)
@@ -43,6 +43,7 @@
 // Arduino.  When held that way, the first pixel is at the top right, and
 // lines are arranged in columns, progressive order.  The shield uses
 // 800 KHz (v2) pixels that expect GRB color data.
+
 Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(mh, mw, PIN,
                             NEO_MATRIX_TOP     + NEO_MATRIX_RIGHT +
                             NEO_MATRIX_COLUMNS + NEO_MATRIX_ZIGZAG,
@@ -52,9 +53,11 @@ int i; //declaring i for the for loops coming soon
 
 int wait = 200; //created so we can easily make changes to our delay based on the size of the board
 
-int x = random(1, 15);
-int y = random(1, 33);
+//creating variables to initialize fruit
+int x = random(1, 15); 
+int y = random(1, 33); 
 
+//labeling the pins that each button is connected to
 const int RbuttonPin = 12;
 const int LbuttonPin = 4;
 const int UbuttonPin = 8;
@@ -68,12 +71,12 @@ int UbuttonState = 0;         // current state of the button
 
 int DbuttonState = 0;         // current state of the button
 
-const long MAX_SNAKE_LENGTH = 25;
+const long MAX_SNAKE_LENGTH = 25; //creating a maximum length of snake to set a max value of the array
 
 int snakeX[MAX_SNAKE_LENGTH];
 int snakeY[MAX_SNAKE_LENGTH];
 
-int snakeLength = 1;
+int snakeLength = 1; //creating the initial length of snake, on which will be added to
 
 int counter = 0;
 
@@ -86,8 +89,8 @@ void setup() {
   matrix.setTextWrap(false);
   Serial.begin(9600);
   matrix.setBrightness(60);
-  initializeFruit();
-  matrix.drawRect(0, 0, 17, 34, matrix.Color(255, 0, 0));
+  initializeFruit(); //check below, this initializes the fruit for the snake to eat
+  matrix.drawRect(0, 0, 17, 34, matrix.Color(255, 0, 0)); //this creates a boundary
   snakeX[0] = 4;
   snakeY[0] = 7;
   makeSnake();
@@ -115,7 +118,7 @@ void makeSnake() {
   }
 }
 
-void resetFruit() {
+void resetFruit() { //resets the the fruit
   x = 0;
   y = 0;
   x = random(2, 14);
@@ -125,14 +128,14 @@ void resetFruit() {
 }
 
 
-void GameOver() {
-  if (snakeX[0] == 0 || snakeX[0] == 17 || snakeY[0] == 0 || snakeY[0] == 34) {
+void GameOver() { //code checking if the user lost
+  if (snakeX[0] == 0 || snakeX[0] == 17 || snakeY[0] == 0 || snakeY[0] == 34) { //checking whether the snake hit the border
     matrix.clear();
     matrix.fillRect(0, 0, 17, 34, matrix.Color(246, 70, 91));
     matrix.show();
     exit(1);
   }
-  else {
+  else { //checking wether the snake hit itself
     for (i = 1; i <= snakeLength - 1; i++) {
       if (snakeX[0] == snakeX[i] && snakeY[0] == snakeY[i]) {
         matrix.clear();
@@ -148,7 +151,7 @@ void GameOver() {
 }
 
 
-void RButton() {
+void RButton() { //reading the right button
   RbuttonState = digitalRead(RbuttonPin);
   if (RbuttonState == HIGH) {
     counter = 1;
@@ -181,7 +184,7 @@ void RButton() {
     }
   }
 }
-void LButton() {
+void LButton() { //reading the left button
   LbuttonState = digitalRead(LbuttonPin);
   if (LbuttonState == HIGH) {
     counter = 2;
@@ -214,7 +217,7 @@ void LButton() {
     }
   }
 }
-void UButton() {
+void UButton() { //reading the up button
 
   UbuttonState = digitalRead(UbuttonPin);
 
@@ -249,7 +252,7 @@ void UButton() {
     }
   }
 }
-void DButton() {
+void DButton() { //reading the doen button
   DbuttonState = digitalRead(DbuttonPin);
 
   if (DbuttonState == HIGH) {
@@ -287,7 +290,10 @@ void DButton() {
 void checkFruit() {
   if (snakeX[0] == x && snakeY[0] == y) {
     snakeLength++;
-    wait = wait - snakeLength * 3;
+    wait = wait - snakeLength * 3; //the longer the snake, the longer the code takes to iterate over and "move" the snakes individual parts, thus the delay amount gets quicker
+    
+    //next function shifts all values of snake 1 ahead to create room to add 1 value of the snake to the front.
+    //at the moment there is a design flaw in our work that caused us to alter the new location of each fruit. see if you can find it! would love your ideas on how to solve it.
     int temp = snakeX[0];
     int temp2;
     int temp3 = snakeY[0];
@@ -300,7 +306,10 @@ void checkFruit() {
       snakeY[i + 1] = temp3;
       temp3 = temp4;
     }
-    if (counter == 1) {
+
+    //this series of if statements check which direction the snake is moving in before setting a value for the head of the snake
+    
+    if (counter == 1) { 
       snakeX[0] = snakeX[1] - 1;
     }
     else if (counter == 2) {
