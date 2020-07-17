@@ -44,6 +44,8 @@
 // lines are arranged in columns, progressive order.  The shield uses
 // 800 KHz (v2) pixels that expect GRB color data.
 
+//initialize it the way it suits you
+
 Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(mh, mw, PIN,
                             NEO_MATRIX_TOP     + NEO_MATRIX_RIGHT +
                             NEO_MATRIX_COLUMNS + NEO_MATRIX_ZIGZAG,
@@ -78,7 +80,7 @@ int snakeY[MAX_SNAKE_LENGTH];
 
 int snakeLength = 1; //creating the initial length of snake, on which will be added to
 
-int counter = 0;
+int counter = 0; //initializing a counter for snake direction
 
 void setup() {
   pinMode(RbuttonPin, INPUT);
