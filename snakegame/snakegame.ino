@@ -56,8 +56,8 @@ int i; //declaring i for the for loops coming soon
 int wait = 200; //created so we can easily make changes to our delay based on the size of the board
 
 //creating variables to initialize fruit
-int x = random(1, 15); 
-int y = random(1, 33); 
+int x = random(2, mw - 2); 
+int y = random(2, mh - 2); 
 
 //labeling the pins that each button is connected to
 const int RbuttonPin = 12;
@@ -92,7 +92,7 @@ void setup() {
   Serial.begin(9600);
   matrix.setBrightness(60);
   initializeFruit(); //check below, this initializes the fruit for the snake to eat
-  matrix.drawRect(0, 0, 17, 34, matrix.Color(255, 0, 0)); //this creates a boundary
+  matrix.drawRect(0, 0, mw, mh, matrix.Color(255, 0, 0)); //this creates a boundary
   snakeX[0] = 4;
   snakeY[0] = 7;
   makeSnake();
@@ -123,15 +123,15 @@ void makeSnake() {
 void resetFruit() { //resets the the fruit
   x = 0;
   y = 0;
-  x = random(2, 14);
-  y = random(2, 32);
+  x = random(2, mw - 2); 
+  y = random(2, mh - 2); 
   matrix.drawPixel(x, y, matrix.Color(0, 255, 0));
   matrix.show();
 }
 
 
 void GameOver() { //code checking if the user lost
-  if (snakeX[0] == 0 || snakeX[0] == 17 || snakeY[0] == 0 || snakeY[0] == 34) { //checking whether the snake hit the border
+  if (snakeX[0] == 0 || snakeX[0] == mw || snakeY[0] == 0 || snakeY[0] == mh) { //checking whether the snake hit the border
     matrix.clear();
     matrix.fillRect(0, 0, 17, 34, matrix.Color(246, 70, 91));
     matrix.show();
@@ -141,7 +141,7 @@ void GameOver() { //code checking if the user lost
     for (i = 1; i <= snakeLength - 1; i++) {
       if (snakeX[0] == snakeX[i] && snakeY[0] == snakeY[i]) {
         matrix.clear();
-        matrix.fillRect(0, 0, 17, 34, matrix.Color(246, 70, 91));
+        matrix.fillRect(0, 0, mw, mh, matrix.Color(246, 70, 91));
         matrix.show();
         exit(1);
       }
