@@ -62,7 +62,7 @@ int y = random(2, mh - 2);
 //labeling the pins that each button is connected to
 const int RbuttonPin = 12;
 const int LbuttonPin = 4;
-const int UbuttonPin = 8;
+const int UbuttonPin = 8; //flip if using normal matrix
 const int DbuttonPin = 7;
 
 int RbuttonState = 0;         // current state of the button
