@@ -1,6 +1,6 @@
 //Snake Game
 //By: Ariv Gupta, @arivgups
-//For Neopixel Matrix Rigged up with Strips or Just a Plain Old Matrix
+//For Neopixel Matrix Rigged up with Strips or Just a Plain Old Matrix (buttons might change based on which you decide to use)
 //Utilizes Pushbuttons. Would love to see your iteration!
 //thanks to adityamittal13 for his conceptual help!
 
@@ -15,7 +15,7 @@
 #define PIN 6
 
 #define mw 16 //Width of Matrix, In my case, the Y Axis
-#define mh 16 //Height of Matrix, In my case, the X Axis
+#define mh 16//Height of Matrix, In my case, the X Axis
 
 // MATRIX DECLARATION(Taken from Neopixel Library):
 // Parameter 1 = width of NeoPixel matrix
