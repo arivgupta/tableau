@@ -1,15 +1,15 @@
 /*********************************************************************
- This is an example for our nRF51822 based Bluefruit LE modules
+  This is an example for our nRF51822 based Bluefruit LE modules
 
- Pick one up today in the adafruit shop!
+  Pick one up today in the adafruit shop!
 
- Adafruit invests time and resources providing this open source code,
- please support Adafruit and open-source hardware by purchasing
- products from Adafruit!
+  Adafruit invests time and resources providing this open source code,
+  please support Adafruit and open-source hardware by purchasing
+  products from Adafruit!
 
- MIT license, check LICENSE for more information
- All text above, and the splash screen below must be included in
- any redistribution
+  MIT license, check LICENSE for more information
+  All text above, and the splash screen below must be included in
+  any redistribution
 *********************************************************************/
 
 #include <string.h>
@@ -25,7 +25,7 @@
 #include "BluefruitConfig.h"
 
 #if SOFTWARE_SERIAL_AVAILABLE
-  #include <SoftwareSerial.h>
+#include <SoftwareSerial.h>
 #endif
 
 const int mw = 16;
@@ -33,24 +33,24 @@ const int mh = 16;
 /*=========================================================================
     APPLICATION SETTINGS
 
-    FACTORYRESET_ENABLE       Perform a factory reset when running this sketch
-   
-                              Enabling this will put your Bluefruit LE module
+      FACTORYRESET_ENABLE       Perform a factory reset when running this sketch
+     
+                                Enabling this will put your Bluefruit LE module
                               in a 'known good' state and clear any config
                               data set in previous sketches or projects, so
-                              running this at least once is a good idea.
-   
-                              When deploying your project, however, you will
+                                running this at least once is a good idea.
+     
+                                When deploying your project, however, you will
                               want to disable factory reset by setting this
                               value to 0.  If you are making changes to your
-                              Bluefruit LE device via AT commands, and those
+                                Bluefruit LE device via AT commands, and those
                               changes aren't persisting across resets, this
                               is the reason why.  Factory reset will erase
                               the non-volatile memory where config data is
                               stored, setting it back to factory default
                               values.
-       
-                              Some sketches that require you to bond to a
+         
+                                Some sketches that require you to bond to a
                               central device (HID mouse, keyboard, etc.)
                               won't work at all with this feature enabled
                               since the factory reset will clear all of the
@@ -61,20 +61,20 @@ const int mh = 16;
                               "DISABLE" or "MODE" or "BLEUART" or
                               "HWUART"  or "SPI"  or "MANUAL"
     -----------------------------------------------------------------------*/
-    #define FACTORYRESET_ENABLE         1
-    #define MINIMUM_FIRMWARE_VERSION    "0.6.6"
-    #define MODE_LED_BEHAVIOUR          "MODE"
+#define FACTORYRESET_ENABLE         1
+#define MINIMUM_FIRMWARE_VERSION    "0.6.6"
+#define MODE_LED_BEHAVIOUR          "MODE"
 /*=========================================================================*/
 
 // Create the bluefruit object, either software serial...uncomment these lines
 
 /*SoftwareSerial bluefruitSS = SoftwareSerial(BLUEFRUIT_SWUART_TXD_PIN, BLUEFRUIT_SWUART_RXD_PIN);
 
-Adafruit_BluefruitLE_UART ble(bluefruitSS, BLUEFRUIT_UART_MODE_PIN,
+  Adafruit_BluefruitLE_UART ble(bluefruitSS, BLUEFRUIT_UART_MODE_PIN,
                       BLUEFRUIT_UART_CTS_PIN, BLUEFRUIT_UART_RTS_PIN);
-/*
+  /*
 
-/* ...or hardware serial, which does not need the RTS/CTS pins. Uncomment this line */
+  /* ...or hardware serial, which does not need the RTS/CTS pins. Uncomment this line */
 // Adafruit_BluefruitLE_UART ble(BLUEFRUIT_HWSERIAL_NAME, BLUEFRUIT_UART_MODE_PIN);
 
 /* ...hardware SPI, using SCK/MOSI/MISO hardware SPI pins and then user selected CS/IRQ/RST */
@@ -85,7 +85,7 @@ Adafruit_BluefruitLE_SPI ble(BLUEFRUIT_SPI_CS, BLUEFRUIT_SPI_IRQ, BLUEFRUIT_SPI_
 //                             BLUEFRUIT_SPI_MOSI, BLUEFRUIT_SPI_CS,
 //                             BLUEFRUIT_SPI_IRQ, BLUEFRUIT_SPI_RST);
 
-Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(mh, mw, 9,
+Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(mh, mw, 13,
                             NEO_MATRIX_TOP     + NEO_MATRIX_RIGHT +
                             NEO_MATRIX_ROWS + NEO_MATRIX_ZIGZAG,
                             NEO_GRB            + NEO_KHZ800);
@@ -115,7 +115,11 @@ void setup(void)
 {
   //while (!Serial);  // required for Flora & Micro
   //delay(500);
-
+  matrix.begin();
+  matrix.show();
+  matrix.setBrightness(50);
+  matrix.setTextWrap(false);
+  matrix.setTextColor(colors[0]);
   Serial.begin(115200);
   Serial.println(F("Adafruit Bluefruit App Controller Example"));
   Serial.println(F("-----------------------------------------"));
@@ -133,7 +137,7 @@ void setup(void)
   {
     /* Perform a factory reset to make sure everything is in a known state */
     Serial.println(F("Performing a factory reset: "));
-    if ( ! ble.factoryReset() ){
+    if ( ! ble.factoryReset() ) {
       error(F("Couldn't factory reset"));
     }
   }
@@ -154,7 +158,7 @@ void setup(void)
 
   /* Wait for connection */
   while (! ble.isConnected()) {
-      delay(500);
+    delay(500);
   }
 
   Serial.println(F("******************************"));
@@ -194,14 +198,7 @@ void loop(void)
     uint8_t red = packetbuffer[2];
     uint8_t green = packetbuffer[3];
     uint8_t blue = packetbuffer[4];
-    Serial.print ("RGB #");
-    if (red < 0x10) Serial.print("0");
-    Serial.print(red);
-    if (green < 0x10) Serial.print("0");
-    Serial.print(green);
-    if (blue < 0x10) Serial.print("0");
-    Serial.println(blue);
-    matrix.fillScreen(matrix.Color(255, 0, 0));
+    matrix.fillScreen(matrix.Color(red, green, blue));
     matrix.show();
     Serial.println("Color sent!");
   }
@@ -221,9 +218,9 @@ void loop(void)
   // GPS Location
   if (packetbuffer[1] == 'L') {
     float lat, lon, alt;
-    lat = parsefloat(packetbuffer+2);
-    lon = parsefloat(packetbuffer+6);
-    alt = parsefloat(packetbuffer+10);
+    lat = parsefloat(packetbuffer + 2);
+    lon = parsefloat(packetbuffer + 6);
+    alt = parsefloat(packetbuffer + 10);
     Serial.print("GPS Location\t");
     Serial.print("Lat: "); Serial.print(lat, 4); // 4 digits of precision!
     Serial.print('\t');
@@ -235,9 +232,9 @@ void loop(void)
   // Accelerometer
   if (packetbuffer[1] == 'A') {
     float x, y, z;
-    x = parsefloat(packetbuffer+2);
-    y = parsefloat(packetbuffer+6);
-    z = parsefloat(packetbuffer+10);
+    x = parsefloat(packetbuffer + 2);
+    y = parsefloat(packetbuffer + 6);
+    z = parsefloat(packetbuffer + 10);
     Serial.print("Accel\t");
     Serial.print(x); Serial.print('\t');
     Serial.print(y); Serial.print('\t');
@@ -247,9 +244,9 @@ void loop(void)
   // Magnetometer
   if (packetbuffer[1] == 'M') {
     float x, y, z;
-    x = parsefloat(packetbuffer+2);
-    y = parsefloat(packetbuffer+6);
-    z = parsefloat(packetbuffer+10);
+    x = parsefloat(packetbuffer + 2);
+    y = parsefloat(packetbuffer + 6);
+    z = parsefloat(packetbuffer + 10);
     Serial.print("Mag\t");
     Serial.print(x); Serial.print('\t');
     Serial.print(y); Serial.print('\t');
@@ -259,9 +256,9 @@ void loop(void)
   // Gyroscope
   if (packetbuffer[1] == 'G') {
     float x, y, z;
-    x = parsefloat(packetbuffer+2);
-    y = parsefloat(packetbuffer+6);
-    z = parsefloat(packetbuffer+10);
+    x = parsefloat(packetbuffer + 2);
+    y = parsefloat(packetbuffer + 6);
+    z = parsefloat(packetbuffer + 10);
     Serial.print("Gyro\t");
     Serial.print(x); Serial.print('\t');
     Serial.print(y); Serial.print('\t');
@@ -271,10 +268,10 @@ void loop(void)
   // Quaternions
   if (packetbuffer[1] == 'Q') {
     float x, y, z, w;
-    x = parsefloat(packetbuffer+2);
-    y = parsefloat(packetbuffer+6);
-    z = parsefloat(packetbuffer+10);
-    w = parsefloat(packetbuffer+14);
+    x = parsefloat(packetbuffer + 2);
+    y = parsefloat(packetbuffer + 6);
+    z = parsefloat(packetbuffer + 10);
+    w = parsefloat(packetbuffer + 14);
     Serial.print("Quat\t");
     Serial.print(x); Serial.print('\t');
     Serial.print(y); Serial.print('\t');
