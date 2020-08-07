@@ -18,6 +18,9 @@
 #include "Adafruit_BLE.h"
 #include "Adafruit_BluefruitLE_SPI.h"
 #include "Adafruit_BluefruitLE_UART.h"
+#include <Adafruit_GFX.h>
+#include <Adafruit_NeoMatrix.h>
+#include <Adafruit_NeoPixel.h>
 
 #include "BluefruitConfig.h"
 
@@ -25,6 +28,8 @@
   #include <SoftwareSerial.h>
 #endif
 
+const int mw = 16;
+const int mh = 16;
 /*=========================================================================
     APPLICATION SETTINGS
 
@@ -62,12 +67,12 @@
 /*=========================================================================*/
 
 // Create the bluefruit object, either software serial...uncomment these lines
-/*
-SoftwareSerial bluefruitSS = SoftwareSerial(BLUEFRUIT_SWUART_TXD_PIN, BLUEFRUIT_SWUART_RXD_PIN);
+
+/*SoftwareSerial bluefruitSS = SoftwareSerial(BLUEFRUIT_SWUART_TXD_PIN, BLUEFRUIT_SWUART_RXD_PIN);
 
 Adafruit_BluefruitLE_UART ble(bluefruitSS, BLUEFRUIT_UART_MODE_PIN,
                       BLUEFRUIT_UART_CTS_PIN, BLUEFRUIT_UART_RTS_PIN);
-*/
+/*
 
 /* ...or hardware serial, which does not need the RTS/CTS pins. Uncomment this line */
 // Adafruit_BluefruitLE_UART ble(BLUEFRUIT_HWSERIAL_NAME, BLUEFRUIT_UART_MODE_PIN);
@@ -80,6 +85,10 @@ Adafruit_BluefruitLE_SPI ble(BLUEFRUIT_SPI_CS, BLUEFRUIT_SPI_IRQ, BLUEFRUIT_SPI_
 //                             BLUEFRUIT_SPI_MOSI, BLUEFRUIT_SPI_CS,
 //                             BLUEFRUIT_SPI_IRQ, BLUEFRUIT_SPI_RST);
 
+Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(mh, mw, BLUEFRUIT_UART_MODE_PIN,
+                            NEO_MATRIX_TOP     + NEO_MATRIX_RIGHT +
+                            NEO_MATRIX_ROWS + NEO_MATRIX_ZIGZAG,
+                            NEO_GRB            + NEO_KHZ800);
 
 // A small helper
 void error(const __FlashStringHelper*err) {
@@ -104,8 +113,8 @@ extern uint8_t packetbuffer[];
 /**************************************************************************/
 void setup(void)
 {
-  while (!Serial);  // required for Flora & Micro
-  delay(500);
+  //while (!Serial);  // required for Flora & Micro
+  //delay(500);
 
   Serial.begin(115200);
   Serial.println(F("Adafruit Bluefruit App Controller Example"));
@@ -187,11 +196,14 @@ void loop(void)
     uint8_t blue = packetbuffer[4];
     Serial.print ("RGB #");
     if (red < 0x10) Serial.print("0");
-    Serial.print(red, HEX);
+    Serial.print(red);
     if (green < 0x10) Serial.print("0");
-    Serial.print(green, HEX);
+    Serial.print(green);
     if (blue < 0x10) Serial.print("0");
-    Serial.println(blue, HEX);
+    Serial.println(blue);
+    matrix.fillRect(0, 0, mw, mh, matrix.Color(red, green, blue));
+    matrix.show();
+    Serial.println("Color sent!");
   }
 
   // Buttons
