@@ -85,7 +85,7 @@ Adafruit_BluefruitLE_SPI ble(BLUEFRUIT_SPI_CS, BLUEFRUIT_SPI_IRQ, BLUEFRUIT_SPI_
 //                             BLUEFRUIT_SPI_MOSI, BLUEFRUIT_SPI_CS,
 //                             BLUEFRUIT_SPI_IRQ, BLUEFRUIT_SPI_RST);
 
-Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(mh, mw, BLUEFRUIT_UART_MODE_PIN,
+Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(mh, mw, 9,
                             NEO_MATRIX_TOP     + NEO_MATRIX_RIGHT +
                             NEO_MATRIX_ROWS + NEO_MATRIX_ZIGZAG,
                             NEO_GRB            + NEO_KHZ800);
@@ -201,7 +201,7 @@ void loop(void)
     Serial.print(green);
     if (blue < 0x10) Serial.print("0");
     Serial.println(blue);
-    matrix.fillRect(0, 0, mw, mh, matrix.Color(red, green, blue));
+    matrix.fillScreen(matrix.Color(255, 0, 0));
     matrix.show();
     Serial.println("Color sent!");
   }
