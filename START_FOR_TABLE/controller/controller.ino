@@ -119,7 +119,6 @@ void setup(void)
   matrix.show();
   matrix.setBrightness(50);
   matrix.setTextWrap(false);
-  matrix.setTextColor(colors[0]);
   Serial.begin(115200);
   Serial.println(F("Adafruit Bluefruit App Controller Example"));
   Serial.println(F("-----------------------------------------"));
