@@ -36,7 +36,7 @@ uint8_t buttnum;
 //SETUP FOR SNAKE GAME BEGINS
 int i; //declaring i for the for loops coming soon
 
-int wait = 200; //created so we can easily make changes to our delay based on the size of the board
+int wait = 100; //created so we can easily make changes to our delay based on the size of the board
 
 //creating variables to initialize fruit
 int x = random(2, mw - 2);
@@ -272,6 +272,7 @@ void snakeBegin() {
   snakeX[0] = 4;
   snakeY[0] = 7;
   makeSnake();
+
 }
 
 void initializeFruit() {
@@ -324,7 +325,7 @@ void RButton() { //reading the right button
         if (snakeX[i] - snakeX[i - 1] == 2) {
           snakeX[i]--;
         }
-        if (snakeX[i] - snakeX[i - 1] == -2) {
+        else if (snakeX[i] - snakeX[i - 1] == -2) {
           snakeX[i]++;
         }
         else if (snakeY[i] - snakeY[i - 1] == -2 || snakeY[i] - snakeY[i - 1] == -1) {
@@ -357,7 +358,7 @@ void LButton() { //reading the left button
         if (snakeX[i] - snakeX[i - 1] == -2) {
           snakeX[i]++;
         }
-        if (snakeX[i] - snakeX[i - 1] == 2) {
+        else if (snakeX[i] - snakeX[i - 1] == 2) {
           snakeX[i]--;
         }
         else if (snakeY[i] - snakeY[i - 1] == -2 || snakeY[i] - snakeY[i - 1] == -1) {
@@ -378,7 +379,7 @@ void LButton() { //reading the left button
   }
 }
 
-void UButton() { //reading the up button
+void DButton() { //reading the up button
   checkButtons();
   if (buttnum == 6)
   {
@@ -391,42 +392,8 @@ void UButton() { //reading the up button
         if (snakeY[i] - snakeY[i - 1] == -2) {
           snakeY[i]++;
         }
-        if (snakeY[i] - snakeY[i - 1] == 2) {
+        else if (snakeY[i] - snakeY[i - 1] == 2) {
           snakeY[i]--;
-        }
-        else if (snakeX[i] - snakeX[i - 1] == 2 || snakeX[i] - snakeX[i - 1] == 1) {
-          snakeX[i]--;
-        }
-        else if (snakeX[i] - snakeX[i - 1] == -2 || snakeX[i] - snakeX[i - 1] == -1) {
-          snakeX[i]++;
-        }
-      }
-      makeSnake();
-      delay(wait);
-      checkFruit();
-      RButton();
-      LButton();
-      DButton();
-      GameOver();
-    }
-  }
-}
-
-void DButton() { //reading the down button
-  checkButtons();
-  if (buttnum == 5)
-  {
-    counter = 4;
-    while (counter = 4) {
-      matrix.drawPixel(snakeX[0], snakeY[0], matrix.Color(0, 0, 0));
-      snakeY[0]--;
-      for (i = 1; i <= snakeLength - 1; i++) {
-        matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
-        if (snakeY[i] - snakeY[i - 1] == 2) {
-          snakeY[i]--;
-        }
-        if (snakeY[i] - snakeY[i - 1] == -2) {
-          snakeY[i]++;
         }
         else if (snakeX[i] - snakeX[i - 1] == 2 || snakeX[i] - snakeX[i - 1] == 1) {
           snakeX[i]--;
@@ -441,6 +408,40 @@ void DButton() { //reading the down button
       RButton();
       LButton();
       UButton();
+      GameOver();
+    }
+  }
+}
+
+void UButton() { //reading the down button
+  checkButtons();
+  if (buttnum == 5)
+  {
+    counter = 4;
+    while (counter = 4) {
+      matrix.drawPixel(snakeX[0], snakeY[0], matrix.Color(0, 0, 0));
+      snakeY[0]--;
+      for (i = 1; i <= snakeLength - 1; i++) {
+        matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
+        if (snakeY[i] - snakeY[i - 1] == 2) {
+          snakeY[i]--;
+        }
+        else if (snakeY[i] - snakeY[i - 1] == -2) {
+          snakeY[i]++;
+        }
+        else if (snakeX[i] - snakeX[i - 1] == 2 || snakeX[i] - snakeX[i - 1] == 1) {
+          snakeX[i]--;
+        }
+        else if (snakeX[i] - snakeX[i - 1] == -2 || snakeX[i] - snakeX[i - 1] == -1) {
+          snakeX[i]++;
+        }
+      }
+      makeSnake();
+      delay(wait);
+      checkFruit();
+      RButton();
+      LButton();
+      DButton();
       GameOver();
     }
   }
@@ -502,6 +503,12 @@ void GameOver() { //code checking if the user lost
     matrix.show();
     game = 0;
     delay(500);
+    for (int i = 0; i < MAX_SNAKE_LENGTH; i++)
+    {
+      snakeX[i] = NULL;
+      snakeY[i] = NULL;
+    }
+    snakeLength = 1;
     matrix.clear();
     general();
   }
@@ -513,6 +520,12 @@ void GameOver() { //code checking if the user lost
         matrix.show();
         game = 0;
         delay(500);
+        for (int i = 0; i < MAX_SNAKE_LENGTH; i++)
+        {
+          snakeX[i] = NULL;
+          snakeY[i] = NULL;
+        }
+        snakeLength = 1;
         matrix.clear();
         general();
       }
