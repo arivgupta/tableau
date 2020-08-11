@@ -36,7 +36,7 @@ uint8_t buttnum;
 //SETUP FOR SNAKE GAME BEGINS
 int i; //declaring i for the for loops coming soon
 
-int wait = 100; //created so we can easily make changes to our delay based on the size of the board
+int wait = 75; //created so we can easily make changes to our delay based on the size of the board
 
 //creating variables to initialize fruit
 int x = random(2, mw - 2);
@@ -219,6 +219,14 @@ void general();
 
 void loop() {
   general();
+  if (game == 1)
+  {
+    RButton();
+    LButton();
+    UButton();
+    DButton();
+  }
+  matrix.show();
 }
 
 void general() {
@@ -246,24 +254,18 @@ void general() {
       buttnum = packetbuffer[2] - '0';
       boolean pressed = packetbuffer[3] - '0';
       Serial.print ("Button "); Serial.print(buttnum);
-      if (game == 1)
-      {
-        RButton();
-        LButton();
-        UButton();
-        DButton();
-        matrix.show();
-      }
       if (buttnum == 1)
       {
         if (pressed) {
           game = 1;
           snakeBegin();
+          break;
         }
       }
     }
   }
 }
+
 
 void snakeBegin() {
   matrix.clear();
@@ -271,6 +273,7 @@ void snakeBegin() {
   matrix.drawRect(0, 0, mw, mh, matrix.Color(255, 0, 0)); //this creates a boundary
   snakeX[0] = 4;
   snakeY[0] = 7;
+  counter = 0;
   makeSnake();
 
 }
@@ -498,10 +501,10 @@ void checkFruit() {
 
 void GameOver() { //code checking if the user lost
   if (snakeX[0] == 0 || snakeX[0] == mw || snakeY[0] == 0 || snakeY[0] == mh) { //checking whether the snake hit the border
+    game = 0;
     matrix.clear();
     matrix.fillRect(0, 0, mw, mh, matrix.Color(246, 70, 91));
     matrix.show();
-    game = 0;
     delay(500);
     for (int i = 0; i < MAX_SNAKE_LENGTH; i++)
     {
@@ -515,10 +518,10 @@ void GameOver() { //code checking if the user lost
   else { //checking whether the snake hit itself
     for (i = 1; i <= snakeLength - 1; i++) {
       if (snakeX[0] == snakeX[i] && snakeY[0] == snakeY[i]) {
+        game = 0;
         matrix.clear();
         matrix.fillRect(0, 0, mw, mh, matrix.Color(246, 70, 91));
         matrix.show();
-        game = 0;
         delay(500);
         for (int i = 0; i < MAX_SNAKE_LENGTH; i++)
         {
