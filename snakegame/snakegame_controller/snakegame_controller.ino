@@ -315,6 +315,38 @@ void checkButtons() {
   }
 }
 
+void checkCorners(int particle, int particle_minus1)
+{
+  if (particle_minus1 - 1 < 0)
+  {
+    return;
+  }
+  
+  else if (snakeY[particle_minus1] - snakeY[particle_minus1 - 1] > 0 || snakeY[particle_minus1] - snakeY[particle_minus1 - 1] < 0)
+  {
+    if (snakeX[particle] - snakeX[particle_minus1] == 1)
+    {
+      snakeX[particle]--;
+    }
+    if (snakeX[particle] - snakeX[particle_minus1] == -1)
+    {
+      snakeX[particle]++;
+    }
+  }
+
+  else if (snakeX[particle_minus1] - snakeX[particle_minus1 - 1] > 0 || snakeX[particle_minus1] - snakeX[particle_minus1 - 1] < 0)
+  {
+    if (snakeY[particle] - snakeY[particle_minus1] == 1)
+    {
+      snakeY[particle]--;
+    }
+    if (snakeY[particle] - snakeY[particle_minus1] == -1)
+    {
+      snakeY[particle]++;
+    }
+  }
+}
+
 void RButton() { //reading the right button
   checkButtons();
   if (buttnum == 7)
@@ -325,7 +357,12 @@ void RButton() { //reading the right button
       snakeX[0]--;
       for (i = 1; i <= snakeLength - 1; i++) {
         matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
-        if (snakeX[i] - snakeX[i - 1] == 2) {
+        if (snakeX[i] != snakeX[i - 1] && snakeY[i] != snakeY[i - 1])
+        {
+          checkCorners(i, i - 1);
+          continue;
+        }
+        else if (snakeX[i] - snakeX[i - 1] == 2) {
           snakeX[i]--;
         }
         else if (snakeX[i] - snakeX[i - 1] == -2) {
@@ -358,7 +395,12 @@ void LButton() { //reading the left button
       snakeX[0]++;
       for (i = 1; i <= snakeLength - 1; i++) {
         matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
-        if (snakeX[i] - snakeX[i - 1] == -2) {
+        if (snakeX[i] != snakeX[i - 1] && snakeY[i] != snakeY[i - 1])
+        {
+          checkCorners(i, i - 1);
+          continue;
+        }
+        else if (snakeX[i] - snakeX[i - 1] == -2) {
           snakeX[i]++;
         }
         else if (snakeX[i] - snakeX[i - 1] == 2) {
@@ -392,6 +434,11 @@ void DButton() { //reading the up button
       snakeY[0]++;
       for (i = 1; i <= snakeLength - 1; i++) {
         matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
+        if (snakeX[i] != snakeX[i - 1] && snakeY[i] != snakeY[i - 1])
+        {
+          checkCorners(i, i - 1);
+          continue;
+        }
         if (snakeY[i] - snakeY[i - 1] == -2) {
           snakeY[i]++;
         }
@@ -426,6 +473,11 @@ void UButton() { //reading the down button
       snakeY[0]--;
       for (i = 1; i <= snakeLength - 1; i++) {
         matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
+        if (snakeX[i] != snakeX[i - 1] && snakeY[i] != snakeY[i - 1])
+        {
+          checkCorners(i, i - 1);
+          continue;
+        }
         if (snakeY[i] - snakeY[i - 1] == 2) {
           snakeY[i]--;
         }
