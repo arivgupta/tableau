@@ -32,6 +32,8 @@ const int mw = 16;
 const int mh = 16;
 
 uint8_t buttnum;
+uint8_t buttnumb;
+
 
 //SETUP FOR SNAKE GAME BEGINS
 int i; //declaring i for the for loops coming soon
@@ -251,10 +253,11 @@ void general() {
 
     // Buttons
     if (packetbuffer[1] == 'B') {
-      buttnum = packetbuffer[2] - '0';
+      buttnumb = -1;
+      buttnumb = packetbuffer[2] - '0';
       boolean pressed = packetbuffer[3] - '0';
-      Serial.print ("Button "); Serial.print(buttnum);
-      if (buttnum == 1)
+      Serial.print ("Button "); Serial.print(buttnumb);
+      if (buttnumb == 1)
       {
         if (pressed) {
           game = 1;
@@ -271,9 +274,9 @@ void snakeBegin() {
   matrix.clear();
   initializeFruit(); //check below, this initializes the fruit for the snake to eat
   matrix.drawRect(0, 0, mw, mh, matrix.Color(255, 0, 0)); //this creates a boundary
-  snakeX[0] = 4;
-  snakeY[0] = 7;
-  counter = 0;
+  snakeX[0] = 8;
+  snakeY[0] = 9;
+  buttnum = 0;
   makeSnake();
 
 }
@@ -357,12 +360,12 @@ void RButton() { //reading the right button
       snakeX[0]--;
       for (i = 1; i <= snakeLength - 1; i++) {
         matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
-        if (snakeX[i] != snakeX[i - 1] && snakeY[i] != snakeY[i - 1])
+        /*if (snakeX[i] != snakeX[i - 1] && snakeY[i] != snakeY[i - 1])
         {
           checkCorners(i, i - 1);
           continue;
-        }
-        else if (snakeX[i] - snakeX[i - 1] == 2) {
+        }*/
+        if (snakeX[i] - snakeX[i - 1] == 2) {
           snakeX[i]--;
         }
         else if (snakeX[i] - snakeX[i - 1] == -2) {
@@ -395,12 +398,12 @@ void LButton() { //reading the left button
       snakeX[0]++;
       for (i = 1; i <= snakeLength - 1; i++) {
         matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
-        if (snakeX[i] != snakeX[i - 1] && snakeY[i] != snakeY[i - 1])
+        /*if (snakeX[i] != snakeX[i - 1] && snakeY[i] != snakeY[i - 1])
         {
           checkCorners(i, i - 1);
           continue;
-        }
-        else if (snakeX[i] - snakeX[i - 1] == -2) {
+        }*/
+        if (snakeX[i] - snakeX[i - 1] == -2) {
           snakeX[i]++;
         }
         else if (snakeX[i] - snakeX[i - 1] == 2) {
@@ -434,11 +437,11 @@ void DButton() { //reading the up button
       snakeY[0]++;
       for (i = 1; i <= snakeLength - 1; i++) {
         matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
-        if (snakeX[i] != snakeX[i - 1] && snakeY[i] != snakeY[i - 1])
+        /*if (snakeX[i] != snakeX[i - 1] && snakeY[i] != snakeY[i - 1])
         {
           checkCorners(i, i - 1);
           continue;
-        }
+        }*/
         if (snakeY[i] - snakeY[i - 1] == -2) {
           snakeY[i]++;
         }
@@ -473,11 +476,11 @@ void UButton() { //reading the down button
       snakeY[0]--;
       for (i = 1; i <= snakeLength - 1; i++) {
         matrix.drawPixel(snakeX[i], snakeY[i], matrix.Color(0, 0, 0));
-        if (snakeX[i] != snakeX[i - 1] && snakeY[i] != snakeY[i - 1])
+        /*if (snakeX[i] != snakeX[i - 1] && snakeY[i] != snakeY[i - 1])
         {
           checkCorners(i, i - 1);
           continue;
-        }
+        }*/
         if (snakeY[i] - snakeY[i - 1] == 2) {
           snakeY[i]--;
         }
@@ -553,7 +556,6 @@ void checkFruit() {
 
 void GameOver() { //code checking if the user lost
   if (snakeX[0] == 0 || snakeX[0] == mw || snakeY[0] == 0 || snakeY[0] == mh) { //checking whether the snake hit the border
-    game = 0;
     matrix.clear();
     matrix.fillRect(0, 0, mw, mh, matrix.Color(246, 70, 91));
     matrix.show();
@@ -565,12 +567,13 @@ void GameOver() { //code checking if the user lost
     }
     snakeLength = 1;
     matrix.clear();
+    game = 0;
+    buttnum = 0;
     general();
   }
   else { //checking whether the snake hit itself
     for (i = 1; i <= snakeLength - 1; i++) {
       if (snakeX[0] == snakeX[i] && snakeY[0] == snakeY[i]) {
-        game = 0;
         matrix.clear();
         matrix.fillRect(0, 0, mw, mh, matrix.Color(246, 70, 91));
         matrix.show();
@@ -582,6 +585,8 @@ void GameOver() { //code checking if the user lost
         }
         snakeLength = 1;
         matrix.clear();
+        game = 0;
+        buttnum = 0;
         general();
       }
       else {
